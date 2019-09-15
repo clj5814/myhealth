@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.health.dao.SetmealDao">
+    <select id="findPage" resultType="setmeal">
+        SELECT * from t_setmeal
+        <where>
+            <if test="value !=null and value.length>0">
+                name like concat('%',#{value},'%') or code=#{value} or helpCode=#{value}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into t_setmeal (name,code,helpCode,sex,age,price,remark,attention,img)
+        values (#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+    <insert id="setSetmealAndCheckGroup">
+        insert into t_setmeal_checkgroup  values (#{id},#{checkgroupId});
+    </insert>
+    <select id="findById" resultMap="findByIdMap">
+        SELECT * FROM t_setmeal WHERE id =#{id}
+    </select>
+    <resultMap id="findByIdMap" type="Setmeal">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="price" column="price"/>
+        <result property="remark" column="remark"/>
+        <result property="attention" column="attention"/>
+        <result property="img" column="img"/>
+        <collection property="checkGroups" column="id" select="com.itheima.health.dao.CheckGroupDao.findCheckGroupListBySetmealId"></collection>
+    </resultMap>
+</mapper>
+
+
