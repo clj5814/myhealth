@@ -25,6 +25,12 @@ public class LoginController {
     @Autowired
     private JedisPool jedisPool;
 
+    /**
+     * 登录检测，未注册直接注册会员
+     * @param map
+     * @param response
+     * @return
+     */
     @RequestMapping("/check")
     public Result check(@RequestBody Map map, HttpServletResponse response){
         String telephone = (String) map.get("telephone");

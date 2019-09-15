@@ -38,9 +38,11 @@ public class ReportServiceImpl implements ReportService {
         int totalMember=memberDao.findTOtalMember();
         int thisWeekNewMember=memberDao.findWeekNewMember(thisWeekMonday,thisWeekSunday);
         int thisMonthNewMember=memberDao.findthisMonthNewMember(firstDay4ThisMonth,lastDay4ThisMonth);
+
         int todayOrderNumber=orderMobileDao.findtodayOrderNumber(today);
-        int thisWeekOrderNumber=orderMobileDao.findWeekNewMember(thisWeekMonday,thisWeekSunday);
-        int thisMonthOrderNumber=orderMobileDao.findthisMonthNewMember(firstDay4ThisMonth,lastDay4ThisMonth);
+        int thisWeekOrderNumber=orderMobileDao.findWeekOrderMember(thisWeekMonday,thisWeekSunday);
+        int thisMonthOrderNumber=orderMobileDao.findthisMonthOrderMember(firstDay4ThisMonth,lastDay4ThisMonth);
+
         int todayVisitsNumber=orderMobileDao.findtodayVisitsNumber(today);
         int thisWeekVisitsNumber=orderMobileDao.findWeekVisitsMember(thisWeekMonday,thisWeekSunday);
         int thisMonthVisitsNumber=orderMobileDao.findthisMonthVisitsMember(firstDay4ThisMonth,lastDay4ThisMonth);

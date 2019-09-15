@@ -19,10 +19,10 @@ public interface OrderMobileDao {
     int findtodayOrderNumber(String today);
 
     @Select("SELECT count(*) from t_order WHERE orderDate between #{monday} and #{sunday}")
-    int findWeekNewMember(@Param("monday") String thisWeekMonday,@Param("sunday")  String thisWeekSunday);
+    int findWeekOrderMember(@Param("monday") String thisWeekMonday, @Param("sunday")  String thisWeekSunday);
 
     @Select("SELECT count(*) from t_order WHERE orderDate between #{first} and #{last}")
-    int findthisMonthNewMember(@Param("first") String firstDay4ThisMonth,@Param("last")  String lastDay4ThisMonth);
+    int findthisMonthOrderMember(@Param("first") String firstDay4ThisMonth, @Param("last")  String lastDay4ThisMonth);
 
     @Select("SELECT count(*) from t_order WHERE orderDate =#{today} and orderStatus='已到诊'")
     int findtodayVisitsNumber(String today);
