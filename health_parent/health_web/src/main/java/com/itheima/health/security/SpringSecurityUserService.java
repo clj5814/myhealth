@@ -20,6 +20,14 @@ import java.util.Set;
 public class SpringSecurityUserService implements UserDetailsService {
     @Reference
     private UserService userService;
+
+    /**
+     *
+     * 根据用户名查询用户信息
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.itheima.health.pojo.User user = userService.findUserByUsername(username);

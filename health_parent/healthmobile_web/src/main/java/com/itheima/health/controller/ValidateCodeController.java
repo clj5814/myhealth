@@ -20,8 +20,8 @@ public class ValidateCodeController {
     public Result send4Order(String telephone){
         try {
             Integer code = ValidateCodeUtils.generateValidateCode(4);
-            SMSUtils.sendShortMessage(telephone,code.toString());
-            System.out.println("发送的手机校验码为："+code);
+//            SMSUtils.sendShortMessage(telephone,code.toString());
+            System.out.println("发送的预约手机校验码为："+code);
             jedisPool.getResource().setex(telephone+ RedisMessageConstant.SENDTYPE_ORDER,5*60,code.toString());
             return new Result(true, MessageConstant.SEND_VALIDATECODE_SUCCESS);
         } catch (Exception e) {

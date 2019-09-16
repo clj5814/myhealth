@@ -19,6 +19,11 @@ import java.util.List;
 public class CheckItemController {
     @Reference
     private CheckItemService checkItemService;
+
+    /**
+     * 查找所有
+     * @return
+     */
     @RequestMapping("/findAll")
     @PreAuthorize("hasAnyAuthority('CHECKITEM_QUERY')")
     public Result findAll(){
