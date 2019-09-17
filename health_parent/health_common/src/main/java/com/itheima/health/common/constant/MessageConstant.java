@@ -72,14 +72,21 @@ public class MessageConstant {
     public static final String DELETE_Permission_FAIL = "删除权限失败";
     public static final String ADD_Permission_SUCCESS ="新增权限成功" ;
     public static final String ADD_Permission_FAIL ="新增权限失败" ;
-    public static final String QUERY_Menu_SUCCESS = "查询权限成功";
-    public static final String QUERY_Menu_FAIL = "查询权限失败";
-    public static final String EDIT_Menu_SUCCESS ="编辑权限成功" ;
-    public static final String EDIT_Menu_FAIL ="编辑权限失败" ;
-    public static final String DELETE_Menu_SUCCESS = "删除权限成功";
-    public static final String DELETE_Menu_FAIL = "删除权限失败";
-    public static final String ADD_Menu_SUCCESS ="新增权限成功" ;
-    public static final String ADD_Menu_FAIL ="新增权限失败" ;
+    public static final String QUERY_Menu_SUCCESS = "查询菜单成功";
+    public static final String QUERY_Menu_FAIL = "查询菜单失败";
+    public static final String EDIT_Menu_SUCCESS ="编辑菜单成功" ;
+    public static final String EDIT_Menu_FAIL ="编辑菜单失败" ;
+    public static final String DELETE_Menu_SUCCESS = "删除菜单成功";
+    public static final String DELETE_Menu_FAIL = "删除菜单失败";
+    public static final String ADD_Menu_SUCCESS ="新增菜单成功" ;
+    public static final String ADD_Menu_FAIL ="新增菜单失败" ;
 
-
+    public static final String QUERY_ROLE_SUCCESS = "查询菜单成功";
+    public static final String QUERY_ROLE_FAIL = "查询菜单失败";
+    public static final String EDIT_ROLE_SUCCESS ="编辑菜单成功" ;
+    public static final String EDIT_ROLE_FAIL ="编辑菜单失败" ;
+    public static final String DELETE_ROLE_SUCCESS = "删除菜单成功";
+    public static final String DELETE_ROLE_FAIL = "删除菜单失败";
+    public static final String ADD_ROLE_SUCCESS ="新增菜单成功" ;
+    public static final String ADD_ROLE_FAIL ="新增菜单失败" ;
 }

@@ -8,15 +8,7 @@
 </select>
     <resultMap id="findUserByUsernameMap" type="user">
         <id property="id" column="id"></id>
-        <!--<result property="birthday" column="birthday"/>
-        <result property="gender" column="gender"/>
-        <result property="username" column="username"/>
-        <result property="password" column="password"/>
-        <result property="remark" column="remark"/>
-        <result property="station" column="station"/>
-        <result property="telephone" column="telephone"/>-->
         <collection property="roles" column="id" select="com.itheima.health.dao.RoleDao.findRoleById">
-
         </collection>
     </resultMap>
 </mapper>

@@ -36,9 +36,16 @@
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                 <el-table-column type="index" align="center" label="序号"></el-table-column>
+                <el-table-column prop="id" label="角色编号" align="center"></el-table-column>
                 <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
                 <el-table-column prop="keyword" label="角色关键字" align="center"></el-table-column>
                 <el-table-column prop="description" label="描述" align="center"></el-table-column>
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <div class="pagination-container">
                 <el-pagination
@@ -154,7 +161,7 @@
             handleEdit() {
                 this.$refs['dataEditForm'].validate((valid) => {
                     if (valid) {
-                        axios.post("/checkitem/edit.do", this.formData).then((response) => {
+                        axios.post("/role/edit.do", this.formData).then((response) => {
                             this.dialogFormVisible4Edit = false;
                             if (response.data.flag) {
                                 this.$message({
@@ -178,7 +185,7 @@
             handleAdd() {
                 this.$refs['dataAddForm'].validate((valid) => {
                     if (valid) {
-                        axios.post("/checkitem/add.do", this.formData).then((response) => {
+                        axios.post("/role/add.do", this.formData).then((response) => {
                             if (response.data.flag) {
                                 this.$message({
                                     message: response.data.message,
@@ -205,7 +212,7 @@
                     pageSize: this.pagination.pageSize,
                     queryString: this.pagination.queryString
                 };
-                axios.post("/checkitem/findPage.do", param).then((response) => {
+                axios.post("/role/findPage.do", param).then((response) => {
                     this.dataList = response.data.rows;
                     this.pagination.total = response.data.total;
                 }).catch(() => {
@@ -223,7 +230,7 @@
             },
             // 弹出编辑窗口
             handleUpdate(row) {
-                axios.get("/checkitem/fingById.do?id=" + row.id).then((res) => {
+                axios.get("/role/fingById.do?id=" + row.id).then((res) => {
                     if (res.data.flag) {
                         this.dialogFormVisible4Edit = true;
                         this.formData = res.data.data;
@@ -245,7 +252,7 @@
                     type: 'warning',
                     center: true
                 }).then(() => {
-                    axios.get("/checkitem/delete.do?id=" + row.id).then((response) => {
+                    axios.get("/role/delete.do?id=" + row.id).then((response) => {
                         if (response.data.flag) {
                             this.$message.success(response.data.message);
                             this.findPage();
