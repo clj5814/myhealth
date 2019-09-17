@@ -64,4 +64,22 @@ public class MessageConstant {
     public static final String GET_BUSINESS_REPORT_FAIL = "获取运营统计数据失败";
     public static final String GET_SETMEAL_LIST_SUCCESS = "查询套餐列表数据成功";
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
+    public static final String QUERY_Permission_SUCCESS = "查询权限成功";
+    public static final String QUERY_Permission_FAIL = "查询权限失败";
+    public static final String EDIT_Permission_SUCCESS ="编辑权限成功" ;
+    public static final String EDIT_Permission_FAIL ="编辑权限失败" ;
+    public static final String DELETE_Permission_SUCCESS = "删除权限成功";
+    public static final String DELETE_Permission_FAIL = "删除权限失败";
+    public static final String ADD_Permission_SUCCESS ="新增权限成功" ;
+    public static final String ADD_Permission_FAIL ="新增权限失败" ;
+    public static final String QUERY_Menu_SUCCESS = "查询权限成功";
+    public static final String QUERY_Menu_FAIL = "查询权限失败";
+    public static final String EDIT_Menu_SUCCESS ="编辑权限成功" ;
+    public static final String EDIT_Menu_FAIL ="编辑权限失败" ;
+    public static final String DELETE_Menu_SUCCESS = "删除权限成功";
+    public static final String DELETE_Menu_FAIL = "删除权限失败";
+    public static final String ADD_Menu_SUCCESS ="新增权限成功" ;
+    public static final String ADD_Menu_FAIL ="新增权限失败" ;
+
+
 }
