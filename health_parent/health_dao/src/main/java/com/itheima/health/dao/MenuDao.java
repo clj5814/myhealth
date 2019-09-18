@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface MenuDao {
@@ -28,6 +29,9 @@ public interface MenuDao {
 
     @Select("select * from t_menu")
     List<Menu> findAll();
-    /*@Select("SELECT * from t_permission WHERE id in (SELECT checkitem_id from t_checkgroup_checkitem WHERE checkgroup_id=#{id})")
-    List<Permission> findPermissionListById(Integer id);*/
+
+
+    List<Menu> findMenuByUsername(String username);
+    List<Menu> findMenuByid(Integer id);
+
 }

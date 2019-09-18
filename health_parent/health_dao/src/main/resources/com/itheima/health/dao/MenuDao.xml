@@ -45,5 +45,18 @@
         </set>
         where id=#{id}
     </update>
+    <select id="findMenuByUsername" resultMap="findMenuByUsernameMap">
+        SELECT * FROM t_menu WHERE path not like '/%' AND id in (SELECT rm.menu_id from t_user u,t_user_role ur,t_role_menu rm
+        WHERE u.id=ur.user_id and ur.role_id=rm.role_id and u.username=#{username})
+    </select>
+    <resultMap id="findMenuByUsernameMap" type="Menu">
+        <id column="id" property="id"></id>
+        <collection property="children" column="id" select="com.itheima.health.dao.MenuDao.findMenuByid">
+
+        </collection>
+    </resultMap>
+    <select id="findMenuByid" resultType="Menu">
+        SELECT * FROM t_menu WHERE parentMenuId = #{id};
+    </select>
 </mapper>
 

@@ -59,11 +59,11 @@
                         <el-submenu v-for="menu in menuList" :index="menu.path">
                             <template slot="title">
                                 <i class="fa" :class="menu.icon"></i>
-                                {{menu.title}}
+                                {{menu.name}}
                             </template>
                             <template v-for="child in menu.children">
                                 <el-menu-item :index="child.path">
-                                    <a :href="child.linkUrl" target="right">{{child.title}}</a>
+                                    <a :href="child.linkUrl" target="right">{{child.name}}</a>
                                 </el-menu-item>
                             </template>
                         </el-submenu>
@@ -88,29 +88,29 @@
             menuList:[
                 {
                     "path": "1",
-                    "title": "工作台",
+                    "name": "工作台",
                     "icon":"fa-dashboard",
                     "children": []
                 },
                 {
                     "path": "2",
-                    "title": "会员管理",
+                    "name": "会员管理",
                     "icon":"fa-user-md",
                     "children": [
                         {
                             "path": "/2-1",
-                            "title": "会员档案",
+                            "name": "会员档案",
                             "linkUrl":"member.html",
                             "children":[]
                         },
                         {
                             "path": "/2-2",
-                            "title": "体检上传",
+                            "name": "体检上传",
                             "children":[]
                         },
                         {
                             "path": "/2-3",
-                            "title": "会员统计",
+                            "name": "会员统计",
                             "linkUrl":"all-item-list.html",
                             "children":[]
                         },
@@ -118,36 +118,36 @@
                 },
                 {
                     "path": "3",
-                    "title": "预约管理",
+                    "name": "预约管理",
                     "icon":"fa-tty",
                     "children": [
                         {
                             "path": "/3-1",
-                            "title": "预约列表",
+                            "name": "预约列表",
                             "linkUrl":"ordersettinglist.html",
                             "children":[]
                         },
                         {
                             "path": "/3-2",
-                            "title": "预约设置",
+                            "name": "预约设置",
                             "linkUrl":"ordersetting.html",
                             "children":[]
                         },
                         {
                             "path": "/3-3",
-                            "title": "套餐管理",
+                            "name": "套餐管理",
                             "linkUrl":"setmeal.html",
                             "children":[]
                         },
                         {
                             "path": "/3-4",
-                            "title": "检查组管理",
+                            "name": "检查组管理",
                             "linkUrl":"checkgroup.html",
                             "children":[]
                         },
                         {
                             "path": "/3-5",
-                            "title": "检查项管理",
+                            "name": "检查项管理",
                             "linkUrl":"checkitem.html",
                             "children":[]
                         },
@@ -155,12 +155,12 @@
                 },
                 {
                     "path": "4",
-                    "title": "健康评估",
+                    "name": "健康评估",
                     "icon":"fa-stethoscope",
                     "children":[
                         {
                             "path": "/4-1",
-                            "title": "中医体质辨识",
+                            "name": "中医体质辨识",
                             "linkUrl":"all-medical-list.html",
                             "children":[]
                         },
@@ -168,24 +168,24 @@
                 },
                 {
                     "path": "5",     //菜单项所对应的路由路径
-                    "title": "统计分析",     //菜单项名称
+                    "name": "统计分析",     //菜单项名称
                     "icon":"fa-heartbeat",
                     "children":[//是否有子菜单，若没有，则为[]
                         {
                             "path": "/5-1",
-                            "title": "会员数量统计",
+                            "name": "会员数量统计",
                             "linkUrl":"report_member.html",
                             "children":[]
                         },
                         {
                             "path": "/5-2",
-                            "title": "预约套餐占比统计",
+                            "name": "预约套餐占比统计",
                             "linkUrl":"report_setmeal.html",
                             "children":[]
                         },
                         {
                             "path": "/5-3",
-                            "title": "运营数据占比统计",
+                            "name": "运营数据占比统计",
                             "linkUrl":"report_business.html",
                             "children":[]
                         }
@@ -193,30 +193,30 @@
                 },
                 {
                     "path": "6",     //菜单项所对应的路由路径
-                    "title": "系统设置",     //菜单项名称
+                    "name": "系统设置",     //菜单项名称
                     "icon":"fa-heartbeat",
                     "children":[//是否有子菜单，若没有，则为[]
                         {
                             "path": "/6-1",
-                            "title": "权限管理",
+                            "name": "权限管理",
                             "linkUrl":"permission.html",
                             "children":[]
                         },
                         {
                             "path": "/6-2",
-                            "title": "菜单管理",
+                            "name": "菜单管理",
                             "linkUrl":"menu.html",
                             "children":[]
                         },
                         {
                             "path": "/6-3",
-                            "title": "角色管理",
+                            "name": "角色管理",
                             "linkUrl":"role.html",
                             "children":[]
                         },
                         {
                             "path": "/6-4",
-                            "title": "用户管理",
+                            "name": "用户管理",
                             "linkUrl":"user.html",
                             "children":[]
                         }
@@ -226,13 +226,26 @@
 
         },
         created(){
-            axios.get("/user/getUsername.do").then((res)=>{
-                if (res.data.flag) {
-                    this.username=res.data.data;
-                }else {
-                    this.$message.error(res.data.message)
-                }
-            })
+            this.findMenu();
+        },
+        methods:{
+            findMenu(){
+                axios.get("/user/getUsername.do").then((res)=>{
+                    if (res.data.flag) {
+                        this.username=res.data.data;
+                        axios.get("/menu/findMenuByUsername.do?username="+this.username).then((res)=>{
+                            console.log(res.data.data);
+                            if (res.data.flag) {
+                                this.menuList=res.data.data;
+                            }else {
+                                this.$message.error(res.data.message);
+                            }
+                        })
+                    }else {
+                        this.$message.error(res.data.message)
+                    }
+                })
+            }
         }
     });
     $(function() {

@@ -7,7 +7,6 @@ import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.entity.Result;
 import com.itheima.health.pojo.Menu;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +18,17 @@ import java.util.List;
 public class MenuController {
     @Reference
     private MenuService menuService;
+
+    @RequestMapping("/findMenuByUsername")
+    public Result findMenuByUsername(String username){
+        try {
+            List<Menu> list=menuService.findMenuByUsername(username);
+            return new Result(true,MessageConstant.QUERY_Menu_SUCCESS,list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,MessageConstant.QUERY_Menu_FAIL);
+        }
+    }
 
     /**
      * 查找所有

@@ -10,7 +10,9 @@ import com.itheima.health.pojo.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = MenuService.class)
 @Transactional
@@ -51,5 +53,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Menu> findAll() {
         return menuDao.findAll();
+    }
+
+    @Override
+    public List<Menu> findMenuByUsername(String username) {
+          return menuDao.findMenuByUsername(username);
     }
 }

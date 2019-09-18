@@ -16,4 +16,6 @@ public interface MenuService {
 
     void edit(Menu menu);
     List<Menu> findAll();
+
+    List<Menu> findMenuByUsername(String username);
 }
