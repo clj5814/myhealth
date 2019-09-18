@@ -163,7 +163,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="c in tableuserData">
+                                        <tr v-for="c in tableUserData">
                                             <td>
                                                 <input :id="c.id" v-model="roleIds" type="checkbox" :value="c.id">
                                             </td>
@@ -190,7 +190,7 @@
                     <template>
                         <el-tabs v-model="activeName" type="card">
                             <el-tab-pane label="基本信息" name="first">
-                                <el-form ref="dataAddForm" :rules="rules" :model="formData" label-position="right" label-width="100px">
+                                <el-form ref="dataEditForm" :rules="rules" :model="formData" label-position="right" label-width="100px">
                                     <el-row>
                                         <el-col :span="12">
                                             <el-form-item label="用户名" prop="username">
@@ -199,7 +199,7 @@
                                         </el-col>
                                         <el-col :span="12">
                                             <el-form-item label="密码" prop="password">
-                                                <el-input v-model="formData.password">
+                                                <el-input type="password" v-model="formData.password">
                                                 </el-input>
                                             </el-form-item>
                                         </el-col>
@@ -254,7 +254,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="c in tableuserData">
+                                        <tr v-for="c in tableUserData">
                                             <td>
                                                 <input :id="c.id" v-model="roleIds" type="checkbox" :value="c.id">
                                             </td>
@@ -292,7 +292,7 @@
             },
             dataList: [],//列表数据
             formData: {},//表单数据
-            tableuserData: [],//新增和编辑表单中对应的菜单项列表数据
+            tableUserData: [],//新增和编辑表单中对应的菜单项列表数据
             roleIds: [],//新增和编辑表单中菜单项对应的复选框，基于双向绑定可以进行回显和数据提交
             dialogFormVisible: false,//控制添加窗口显示/隐藏
             dialogFormVisible4Edit: false,//控制编辑窗口显示/隐藏
@@ -371,7 +371,7 @@
                 this.roleIds = [];
                 axios.get("/role/findAll.do").then((response) => {
                     if (response.data.flag) {
-                        this.tableuserData = response.data.data;
+                        this.tableUserData = response.data.data;
                     } else {
                         this.$message.error(response.data.message)
                     }
@@ -387,7 +387,7 @@
                         this.formData = res.data.data;
                         axios.get("/role/findAll.do").then((res) => {
                             if (res.data.flag) {
-                                this.tableuserData = res.data.data;
+                                this.tableUserData = res.data.data;
                                 axios.get("/user/findRoleIdsById.do?id=" + row.id).then((res) => {
                                     this.roleIds = res.data;
                                 })

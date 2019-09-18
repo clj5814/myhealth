@@ -6,8 +6,8 @@ import com.itheima.health.common.constant.MessageConstant;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.entity.Result;
-import com.itheima.health.pojo.User;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +40,7 @@ public class UserController {
      */
     @RequestMapping("/edit")
 //    @PreAuthorize("hasAnyAuthority('User_EDIT')")
-    public Result edit(@RequestBody User user, Integer[] roleIds) {
+    public Result edit(@RequestBody com.itheima.health.pojo.User user, Integer[] roleIds) {
         try {
             userService.edit(user, roleIds);
             return new Result(true, MessageConstant.EDIT_USER_SUCCESS, user);
@@ -60,7 +60,7 @@ public class UserController {
 //    @PreAuthorize("hasAnyAuthority('User_QUERY')")
     public Result findById(Integer id) {
         try {
-            User user = userService.findById(id);
+            com.itheima.health.pojo.User user = userService.findById(id);
             return new Result(true, MessageConstant.QUERY_USER_SUCCESS, user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,7 +121,7 @@ public class UserController {
      */
     @RequestMapping("/add")
 //    @PreAuthorize("hasAnyAuthority('User_ADD')")
-    public Result add(@RequestBody User user, @RequestParam("roleIds") Integer[] roleIds) {
+    public Result add(@RequestBody com.itheima.health.pojo.User user, @RequestParam("roleIds") Integer[] roleIds) {
         try {
             userService.add(user, roleIds);
         } catch (Exception e) {
