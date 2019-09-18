@@ -22,8 +22,8 @@ public interface PermissionDao {
     Permission findById(Integer id);
 
     void edit(Permission permission);
-   /* @Select("select * from t_permission")
-    List<Permission> findAll();*/
+    @Select("select * from t_permission")
+    List<Permission> findAll();
     /*@Select("SELECT * from t_permission WHERE id in (SELECT checkitem_id from t_checkgroup_checkitem WHERE checkgroup_id=#{id})")
     List<Permission> findPermissionListById(Integer id);*/
 }

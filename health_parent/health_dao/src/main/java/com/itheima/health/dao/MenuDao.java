@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MenuDao {
 
@@ -23,8 +25,9 @@ public interface MenuDao {
     Menu findById(Integer id);
 
     void edit(Menu menu);
-   /* @Select("select * from t_permission")
-    List<Permission> findAll();*/
+
+    @Select("select * from t_menu")
+    List<Menu> findAll();
     /*@Select("SELECT * from t_permission WHERE id in (SELECT checkitem_id from t_checkgroup_checkitem WHERE checkgroup_id=#{id})")
     List<Permission> findPermissionListById(Integer id);*/
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/permission")
 public class PermissionController {
@@ -21,9 +23,9 @@ public class PermissionController {
     /**
      * 查找所有
      * @return
-     *//*
-    @RequestMapping("/findAll")
+     */
 //    @PreAuthorize("hasAnyAuthority('Permission_QUERY')")
+    @RequestMapping("/findAll")
     public Result findAll(){
         try {
             List<Permission> list=permissionService.findAll();
@@ -32,7 +34,7 @@ public class PermissionController {
             e.printStackTrace();
             return new Result(false,MessageConstant.QUERY_Permission_FAIL);
         }
-    }*/
+    }
 
     /* */
 

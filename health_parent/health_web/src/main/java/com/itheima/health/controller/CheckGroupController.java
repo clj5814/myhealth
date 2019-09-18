@@ -118,7 +118,6 @@ public class CheckGroupController {
      */
     @RequestMapping("/add")
     public Result add(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds) {
-        System.out.println(checkitemIds);
         try {
             checkGroupService.add(checkGroup, checkitemIds);
             return new Result(true, MessageConstant.ADD_CHECKGROUP_SUCCESS);

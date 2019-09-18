@@ -48,8 +48,8 @@ public class PermissionServiceImpl implements PermissionService {
     public void edit(Permission permission) {
         permissionDao.edit(permission);
     }
-    /*@Override
+    @Override
     public List<Permission> findAll() {
         return permissionDao.findAll();
-    }*/
+    }
 }

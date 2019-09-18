@@ -10,6 +10,8 @@ import com.itheima.health.pojo.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service(interfaceClass = MenuService.class)
 @Transactional
 public class MenuServiceImpl implements MenuService {
@@ -46,8 +48,8 @@ public class MenuServiceImpl implements MenuService {
     public void edit(Menu menu) {
         menuDao.edit(menu);
     }
-    /*@Override
+    @Override
     public List<Menu> findAll() {
         return menuDao.findAll();
-    }*/
+    }
 }

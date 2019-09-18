@@ -15,5 +15,5 @@ public interface PermissionService {
     Permission findById(Integer id);
 
     void edit(Permission permission);
-//    List<Permission> findAll();
+    List<Permission> findAll();
 }

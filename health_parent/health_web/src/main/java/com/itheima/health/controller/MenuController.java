@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
@@ -21,7 +23,7 @@ public class MenuController {
     /**
      * 查找所有
      * @return
-     *//*
+     */
     @RequestMapping("/findAll")
 //    @PreAuthorize("hasAnyAuthority('Menu_QUERY')")
     public Result findAll(){
@@ -32,7 +34,7 @@ public class MenuController {
             e.printStackTrace();
             return new Result(false,MessageConstant.QUERY_Menu_FAIL);
         }
-    }*/
+    }
 
     /* */
 

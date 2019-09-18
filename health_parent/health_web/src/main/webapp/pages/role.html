@@ -91,7 +91,7 @@
                     <template>
                         <el-tabs v-model="activeName" type="card">
                             <el-tab-pane label="基本信息" name="first">
-                                <el-form :rules="rules" label-position="right" label-width="100px">
+                                <el-form ref="dataAddForm" :rules="rules" :model="formData" label-position="right" label-width="100px">
                                     <el-row>
                                         <el-col :span="12">
                                             <el-form-item label="角色名称" prop="name">
@@ -127,9 +127,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="c in tableData">
+                                        <tr v-for="c in tableMenuData">
                                             <td>
-                                                <input :id="c.id" v-model="checkitemIds" type="checkbox" :value="c.id">
+                                                <input :id="c.id" v-model="menuIds" type="checkbox" :value="c.id">
                                             </td>
                                             <td><label :for="c.id">{{c.id}}</label></td>
                                             <td><label :for="c.id">{{c.name}}</label></td>
@@ -151,9 +151,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="c in tableData">
+                                        <tr v-for="c in tablePermissionData">
                                             <td>
-                                                <input :id="c.id" v-model="checkitemIds" type="checkbox" :value="c.id">
+                                                <input :id="c.id" v-model="permissionIds" type="checkbox" :value="c.id">
                                             </td>
                                             <td><label :for="c.id">{{c.id}}</label></td>
                                             <td><label :for="c.id">{{c.name}}</label></td>
@@ -178,7 +178,7 @@
                     <template>
                         <el-tabs v-model="activeName" type="card">
                             <el-tab-pane label="基本信息" name="first">
-                                <el-form label-position="right" label-width="100px" :rules="rules">
+                                <el-form ref="dataEditForm" :model="formData" label-position="right" label-width="100px" :rules="rules">
                                     <el-row>
                                         <el-col :span="12">
                                             <el-form-item label="角色名称" prop="name">
@@ -214,9 +214,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="c in tableData">
+                                        <tr v-for="c in tableMenuData">
                                             <td>
-                                                <input :id="c.id" v-model="checkitemIds" type="checkbox" :value="c.id">
+                                                <input :id="c.id" v-model="menuIds" type="checkbox" :value="c.id">
                                             </td>
                                             <td><label :for="c.id">{{c.id}}</label></td>
                                             <td><label :for="c.id">{{c.name}}</label></td>
@@ -238,9 +238,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="c in tableData">
+                                        <tr v-for="c in tablePermissionData">
                                             <td>
-                                                <input :id="c.id" v-model="checkitemIds" type="checkbox" :value="c.id">
+                                                <input :id="c.id" v-model="permissionIds" type="checkbox" :value="c.id">
                                             </td>
                                             <td><label :for="c.id">{{c.id}}</label></td>
                                             <td><label :for="c.id">{{c.name}}</label></td>
@@ -276,8 +276,10 @@
             },
             dataList: [],//列表数据
             formData: {},//表单数据
-            tableData: [],//新增和编辑表单中对应的检查项列表数据
-            checkitemIds: [],//新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
+            tableMenuData: [],//新增和编辑表单中对应的菜单项列表数据
+            tablePermissionData: [],//新增和编辑表单中对应的权限项列表数据
+            menuIds: [],//新增和编辑表单中菜单项对应的复选框，基于双向绑定可以进行回显和数据提交
+            permissionIds: [],//新增和编辑表单中权限项对应的复选框，基于双向绑定可以进行回显和数据提交
             dialogFormVisible: false,//控制添加窗口显示/隐藏
             dialogFormVisible4Edit: false,//控制编辑窗口显示/隐藏
             rules: {//校验规则
@@ -293,15 +295,15 @@
             handleEdit() {
                 this.$refs['dataEditForm'].validate((valid) => {
                     if (valid) {
-                axios.post("/role/edit.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
-                this.dialogFormVisible4Edit=false;
-                    this.$message({
-                        type:res.data.flag?"success":"error",
-                        message:res.data.message
-                    })
-                }).finally(()=>{
-                    this.findPage();
-                })
+                        axios.post("/role/edit.do?menuIds=" + this.menuIds + "&permissionIds=" + this.permissionIds, this.formData).then((res) => {
+                            this.dialogFormVisible4Edit = false;
+                            this.$message({
+                                type: res.data.flag ? "success" : "error",
+                                message: res.data.message
+                            })
+                        }).finally(() => {
+                            this.findPage();
+                        })
                     } else {
                         this.$message.error("表单校验失败");
                         return false;
@@ -312,16 +314,16 @@
             handleAdd() {
                 this.$refs['dataAddForm'].validate((valid) => {
                     if (valid) {
-                axios.post("/role/add.do?checkitemIds=" + this.checkitemIds, this.formData).then((res) => {
-                    this.dialogFormVisible = false;
-                    if (res.data.flag) {
-                        this.$message.success(res.data.message)
-                    } else {
-                        this.$message.error(res.data.message)
-                    }
-                }).finally(() => {
-                    this.findPage();
-                })
+                        axios.post("/role/add.do?menuIds=" + this.menuIds + "&permissionIds=" + this.permissionIds, this.formData).then((res) => {
+                            this.dialogFormVisible = false;
+                            if (res.data.flag) {
+                                this.$message.success(res.data.message)
+                            } else {
+                                this.$message.error(res.data.message)
+                            }
+                        }).finally(() => {
+                            this.findPage();
+                        })
                     } else {
                         this.$message.error("表单校验失败");
                         return false;
@@ -336,7 +338,7 @@
                     pageSize: this.pagination.pageSize,
                     queryString: this.pagination.queryString
                 };
-                axios.post("/role/findPage.do",parm).then((res) => {
+                axios.post("/role/findPage.do", parm).then((res) => {
                     this.dataList = res.data.rows;
                     this.pagination.total = res.data.total;
                 }).catch(() => {
@@ -352,10 +354,18 @@
                 this.resetForm();
                 this.dialogFormVisible = true;
                 this.activeName = 'first';
-                this.checkitemIds = [];
-                axios.get("/checkitem/findAll.do").then((response) => {
+                this.menuIds = [];
+                this.permissionIds = [];
+                axios.get("/menu/findAll.do").then((response) => {
                     if (response.data.flag) {
-                        this.tableData = response.data.data;
+                        this.tableMenuData = response.data.data;
+                    } else {
+                        this.$message.error(response.data.message)
+                    }
+                });
+                axios.get("/permission/findAll.do").then((response) => {
+                    if (response.data.flag) {
+                        this.tablePermissionData = response.data.data;
                     } else {
                         this.$message.error(response.data.message)
                     }
@@ -363,20 +373,31 @@
             },
             // 弹出编辑窗口
             handleUpdate(row) {
-                this.dialogFormVisible4Edit=true;
-                this.activeName='first';
-                this.checkitemIds=[];
-                axios.get("/role/findById.do?id="+row.id).then((res)=>{
-                    if (res.data.flag){
-                        this.formData=res.data.data;
-                        axios.get("/checkitem/findAll.do").then((res)=>{
-                            if (res.data.flag){
-                                this.tableData=res.data.data;
-                                axios.get("/role/findCheckitemIdsById.do?id="+row.id).then((res)=>{
-                                    this.checkitemIds=res.data;
+                this.dialogFormVisible4Edit = true;
+                this.activeName = 'first';
+                this.menuIds = [];
+                this.permissionIds = [];
+                axios.get("/role/findById.do?id=" + row.id).then((res) => {
+                    if (res.data.flag) {
+                        this.formData = res.data.data;
+                        axios.get("/menu/findAll.do").then((res) => {
+                            if (res.data.flag) {
+                                this.tableMenuData = res.data.data;
+                                axios.get("/role/findmenuIdsById.do?id=" + row.id).then((res) => {
+                                    this.menuIds = res.data;
                                 })
                             } else {
                                 this.$message.error(res.data.message)
+                            }
+                        });
+                        axios.get("/permission/findAll.do").then((response) => {
+                            if (response.data.flag) {
+                                this.tablePermissionData = response.data.data;
+                                axios.get("/role/findpermissionIdsById.do?id=" + row.id).then((res) => {
+                                    this.permissionIds = res.data;
+                                })
+                            } else {
+                                this.$message.error(response.data.message)
                             }
                         })
                     } else {
@@ -386,7 +407,7 @@
             },
             //切换页码
             handleCurrentChange(currentPage) {
-                this.pagination.currentPage=currentPage;
+                this.pagination.currentPage = currentPage;
                 this.findPage();
             },
             // 删除
@@ -396,14 +417,14 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.get("/role/delete.do?id="+row.id).then((res)=>{
+                    axios.get("/role/delete.do?id=" + row.id).then((res) => {
                         this.$message({
-                            type:res.data.flag?"success":"error",
-                            message:res.data.message
+                            type: res.data.flag ? "success" : "error",
+                            message: res.data.message
                         })
-                    }).catch((error)=>{
+                    }).catch((error) => {
                         this.showMessage(error);
-                    }).finally(()=>{
+                    }).finally(() => {
                         this.findPage();
                     })
                 }).catch(() => {
@@ -413,8 +434,8 @@
                     });
                 });
             },
-            showMessage(e){
-                if (e == 'Error: Request failed with status code 403'){
+            showMessage(e) {
+                if (e == 'Error: Request failed with status code 403') {
                     this.$message.error('无权限访问');
                     return;
                 } else {
