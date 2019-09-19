@@ -15,6 +15,12 @@ import java.util.List;
 public class SetmealMobileController {
     @Reference
     private SetmealService setmealService;
+
+    /**
+     * 体检预约查询详情
+     * @param id
+     * @return
+     */
     @RequestMapping("/findById")
     public Result findById(Integer id){
         try {

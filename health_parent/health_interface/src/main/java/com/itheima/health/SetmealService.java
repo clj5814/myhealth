@@ -13,9 +13,9 @@ public interface SetmealService {
 
     void add(Setmeal setmeal,Integer[] checkgroupIds);
 
-    List<Setmeal> findAll();
+    List<Setmeal> findAll() throws Exception;
 
-    Setmeal findById(Integer id);
+    Setmeal findById(Integer id) throws Exception;
 
     Map<String, Object> getSetmealReport();
 
