@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
@@ -131,18 +132,36 @@ public class ReportController {
             return new Result(false, MessageConstant.GET_SETMEAL_COUNT_REPORT_FAIL);
         }
     }
+    /**
+     * 查询会员统计数据
+     *
+     * @return
+     */
+    @RequestMapping("/getMemberReportBySex")
+    public Result getMemberReportBySex() {
+        try {
+            Map<String, Object> map = memberService.getMemberReportBySex();
+            return new Result(true, MessageConstant.GET_SETMEAL_COUNT_REPORT_SUCCESS, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_SETMEAL_COUNT_REPORT_FAIL);
+        }
+    }
 
     /**
      * 查询会员统计数据
      *
      * @return
      */
+//    ?currentYear="+this.currentYear+"&currentMonth="+this.currentMonth
     @RequestMapping("/getMemberReport")
-    public Result getMemberReport() {
+    public Result getMemberReport(@RequestParam("currentYear")int year,@RequestParam("currentMonth")int month) {
         try {
             Calendar calendar = Calendar.getInstance();
             //获得当前日期之前的12个月的日期
-            calendar.add(Calendar.MONTH, -12);
+            calendar.set(Calendar.MONTH,month);
+            calendar.set(Calendar.YEAR,year);
+            calendar.add(Calendar.MONTH, -13);
             List<String> list = new ArrayList<>();
             for (int i = 0; i < 12; i++) {
                 calendar.add(Calendar.MONTH, 1);

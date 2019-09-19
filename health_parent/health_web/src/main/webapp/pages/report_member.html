@@ -1,69 +1,239 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- 页面meta -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>传智健康</title>
-        <meta name="description" content="传智健康">
-        <meta name="keywords" content="传智健康">
-        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-        <!-- 引入样式 -->
-        <link rel="stylesheet" href="../css/style.css">
-        <script src="../plugins/echarts/echarts.js"></script>
-
-    </head>
-    <body class="hold-transition">
-        <div id="app">
-            <div class="content-header">
-                <h1>统计分析<small>会员数量</small></h1>
-                <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
-                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item>统计分析</el-breadcrumb-item>
-                    <el-breadcrumb-item>会员数量</el-breadcrumb-item>
-                </el-breadcrumb>
-            </div>
-            <div class="app-container">
-                <div class="box">
-                    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-                    <div id="chart1" style="height:600px;"></div>
-                </div>
-            </div>
-        </div>
-    </body>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/orderset.css">
     <!-- 引入组件库 -->
     <script src="../js/vue.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
     <script src="../js/echarts.js"></script>
-    <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart1 = echarts.init(document.getElementById('chart1'));
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>统计分析
+            <small>会员数量</small>
+        </h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+            <el-breadcrumb-item>会员数量</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
 
-        // 使用刚指定的配置项和数据显示图表。
-        //myChart.setOption(option);
+    <div class="calendar">
+        <!-- 年份 月份 -->
+        <div class="month">
+            <div class="currentdate">
+                <span class="choose-year">{{ currentYear }}年</span>
+                <span class="choose-month">{{ currentMonth }}月</span>
+            </div>
+            <div class="choose">
+                <span @click="goCurrentMonth(currentYear,currentMonth)" class="gotoday">本月</span>
+                <span @click="pickPre(currentYear,currentMonth)">❮</span>
+                <span @click="pickNext(currentYear,currentMonth)">❯</span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
 
-        axios.get("/report/getMemberReport.do").then((res)=>{
-            myChart1.setOption(
-                                {
-                                    title: {
-                                        text: '会员数量'
-                                    },
-                                    tooltip: {},
-                                    legend: {
-                                        data:['会员数量']
-                                    },
-                                    xAxis: {
-                                        data: res.data.data.months
-                                    },
-                                    yAxis: {
-                                        type:'value'
-                                    },
-                                    series: [{
-                                        name: '会员数量',
-                                        type: 'line',
-                                        data: res.data.data.memberCount
-                                    }]
-                                });
+    <div class="app-container">
+        <div class="box">
+            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+            <div id="chart1" style="height:400px;"></div>
+            <div id="chart2" style="height:400px;"></div>
+            <!--<div id="chart3" style="height:400px;width: 50%"></div>-->
+        </div>
+
+    </div>
+
+</div>
+</body>
+
+
+<script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            today: new Date(),//当前日期
+            currentMonth: 1,
+            currentYear: 1970,
+        },
+        created: function () {//在vue初始化时调用
+            this.initData(null);
+            // this.findMember();
+        },
+        mounted: function () {
+            this.findMember();
+        },
+        methods: {
+            findMember() {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart1 = echarts.init(document.getElementById('chart1'));
+
+                // 使用刚指定的配置项和数据显示图表。
+                //myChart.setOption(option);
+                // ?currentYear="+this.currentYear+"&currentMonth="+this.currentMonth
+                axios.get("/report/getMemberReport.do?currentYear=" + this.currentYear + "&currentMonth=" + this.currentMonth).then((res) => {
+                    myChart1.setOption(
+                        {
+                            title: {
+                                text: '会员数量'
+                            },
+                            tooltip: {},
+                            legend: {
+                                data: ['会员数量']
+                            },
+                            xAxis: {
+                                data: res.data.data.months
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [{
+                                name: '会员数量',
+                                type: 'line',
+                                data: res.data.data.memberCount
+                            }]
+                        });
+                });
+            },
+            //初始化当前页要展示的日期
+            initData: function (cur) {
+                var date;
+                if (cur) {
+                    date = new Date(cur);
+                } else {
+                    var now = new Date();
+                    var d = new Date(this.formatDate(now.getFullYear(), now.getMonth(), 1));
+                    d.setDate(35);
+                    date = new Date(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
+                }
+                this.currentYear = date.getFullYear();
+                this.currentMonth = date.getMonth() + 1;
+            },
+            //切换到当前月份
+            goCurrentMonth: function (year, month) {
+                var d = new Date();
+                this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
+                this.findMember();
+            },
+            //向前一个月
+            pickPre: function (year, month) {
+                // setDate(0); 上月最后一天
+                // setDate(-1); 上月倒数第二天
+                // setDate(dx) 参数dx为 上月最后一天的前后dx天
+                var d = new Date(this.formatDate(year, month, 1));
+                d.setDate(0);
+                this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
+                this.findMember();
+            },
+            //向后一个月
+            pickNext: function (year, month) {
+                var d = new Date(this.formatDate(year, month, 1));
+                d.setDate(35);////获取指定天之后的日期
+                this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
+                this.findMember();
+            },
+            // 返回 类似 2016-01-02 格式的字符串
+            formatDate: function (year, month, day) {
+                var y = year;
+                var m = month;
+                if (m < 10) m = "0" + m;
+                var d = day;
+                if (d < 10) d = "0" + d;
+                return y + "-" + m + "-" + d
+            }
+        }
+    })
+</script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart2'));
+    axios.get("/report/getMemberReportBySex.do").then((res) => {
+        myChart.setOption({
+            title: {
+                text: '性别占比',
+                subtext: '',
+                x: 'center'
+            },
+            tooltip: {//提示框组件
+                trigger: 'item',//触发类型，在饼形图中为item
+                formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: res.data.data.memberSex
+            },
+            series: [
+                {
+                    name: '性别占比',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: res.data.data.memberSexCount,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
         });
-    </script>
+    });
+</script>
+<!--<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart3'));
+    axios.get("/report/getMemberReportByAge.do").then((res) => {
+        myChart.setOption({
+            title: {
+                text: '年龄占比',
+                subtext: '',
+                x: 'center'
+            },
+            tooltip: {//提示框组件
+                trigger: 'item',//触发类型，在饼形图中为item
+                formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: res.data.data.memberSex
+            },
+            series: [
+                {
+                    name: '套餐预约占比',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: res.data.data.memberSexCount,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+    });
+</script>-->
+
 </html>

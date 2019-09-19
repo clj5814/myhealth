@@ -21,4 +21,8 @@ public interface MemberDao {
     int findWeekNewMember(@Param("monday") String thisWeekMonday,@Param("sunday") String thisWeekSunday);
     @Select("SELECT count(*) from t_member WHERE regTime between #{first} and #{last}")
     int findthisMonthNewMember(@Param("first")String firstDay4ThisMonth, @Param("last")String lastDay4ThisMonth);
+    @Select("SELECT count(*) from t_member where sex=1")
+    int getMemberReportByMan();
+    @Select("SELECT count(*) from t_member where sex=2")
+    int getMemberReportByWoman();
 }
