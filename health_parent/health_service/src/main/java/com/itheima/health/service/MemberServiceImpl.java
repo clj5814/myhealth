@@ -2,6 +2,7 @@ package com.itheima.health.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.health.MemberService;
+import com.itheima.health.common.constant.AgeConstant;
 import com.itheima.health.common.utils.MD5Utils;
 import com.itheima.health.dao.MemberDao;
 import com.itheima.health.pojo.Member;
@@ -65,6 +66,54 @@ public class MemberServiceImpl implements MemberService {
         Map<String, Object> map=new HashMap<>();
         map.put("memberSexCount",memberSexCount);
         map.put("memberSex",memberSex);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getMemberReportByAge() {
+        Map<String, Object> map =new HashMap<>();
+
+        String name01="0-"+AgeConstant.USER_AGE_01;
+        String name02=AgeConstant.USER_AGE_01+"-"+AgeConstant.USER_AGE_02;
+        String name03=AgeConstant.USER_AGE_02+"-"+AgeConstant.USER_AGE_03;
+        String name04=AgeConstant.USER_AGE_03+"以上";
+
+        List<String> nameList=new ArrayList<>();
+        nameList.add(name01);
+        nameList.add(name02);
+        nameList.add(name03);
+        nameList.add(name04);
+
+        List<Map> list=new ArrayList<>();
+        String age01=2019-AgeConstant.USER_AGE_01+"-12-31";
+        String age02=2019-AgeConstant.USER_AGE_01+"-01-01";
+        String age03=2019-AgeConstant.USER_AGE_02+"-12-31";
+        String age04=2019-AgeConstant.USER_AGE_02+"-01-01";
+        String age05=2019-AgeConstant.USER_AGE_03+"-12-31";
+        String age06=2019-AgeConstant.USER_AGE_03+"-01-01";
+        int count01=memberDao.getMemberReportByAge01(age01);
+        int count02=memberDao.getMemberReportByAge02(age02,age03);
+        int count03=memberDao.getMemberReportByAge03(age04,age05);
+        int count04=memberDao.getMemberReportByAge04(age06);
+        Map map1=new HashMap();
+        map1.put("name",name01);
+        map1.put("value",count01);
+        Map map2=new HashMap();
+        map2.put("name",name02);
+        map2.put("value",count02);
+        Map map3=new HashMap();
+        map3.put("name",name03);
+        map3.put("value",count03);
+        Map map4=new HashMap();
+        map4.put("name",name04);
+        map4.put("value",count04);
+        list.add(map1);
+        list.add(map2);
+        list.add(map3);
+        list.add(map4);
+
+        map.put("memberAge",nameList);
+        map.put("memberAgeCount",list);
         return map;
     }
 }

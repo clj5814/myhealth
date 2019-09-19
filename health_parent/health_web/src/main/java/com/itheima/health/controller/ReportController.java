@@ -133,7 +133,22 @@ public class ReportController {
         }
     }
     /**
-     * 查询会员统计数据
+     * 查询会员统计数据（根据年龄）
+     *
+     * @return
+     */
+    @RequestMapping("/getMemberReportByAge")
+    public Result getMemberReportByAge() {
+        try {
+            Map<String, Object> map = memberService.getMemberReportByAge();
+            return new Result(true, MessageConstant.GET_SETMEAL_COUNT_REPORT_SUCCESS, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_SETMEAL_COUNT_REPORT_FAIL);
+        }
+    }
+    /**
+     * 查询会员统计数据（根据性别）
      *
      * @return
      */
@@ -153,7 +168,6 @@ public class ReportController {
      *
      * @return
      */
-//    ?currentYear="+this.currentYear+"&currentMonth="+this.currentMonth
     @RequestMapping("/getMemberReport")
     public Result getMemberReport(@RequestParam("currentYear")int year,@RequestParam("currentMonth")int month) {
         try {

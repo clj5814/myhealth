@@ -54,6 +54,7 @@
             <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
             <div id="chart1" style="height:400px;"></div>
             <div id="chart2" style="height:400px;"></div>
+            <div id="chart3" style="height:400px;"></div>
             <!--<div id="chart3" style="height:400px;width: 50%"></div>-->
         </div>
 
@@ -77,6 +78,8 @@
         },
         mounted: function () {
             this.findMember();
+            this.findMemberBySex();
+            this.findMemberByAge();
         },
         methods: {
             findMember() {
@@ -108,6 +111,82 @@
                                 data: res.data.data.memberCount
                             }]
                         });
+                });
+            },
+            findMemberBySex(){
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('chart2'));
+                axios.get("/report/getMemberReportBySex.do").then((res) => {
+                    myChart.setOption({
+                        title: {
+                            text: '性别占比',
+                            subtext: '',
+                            x: 'center'
+                        },
+                        tooltip: {//提示框组件
+                            trigger: 'item',//触发类型，在饼形图中为item
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                            data: res.data.data.memberSex
+                        },
+                        series: [
+                            {
+                                name: '性别占比',
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '60%'],
+                                data: res.data.data.memberSexCount,
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    });
+                });
+            },
+            findMemberByAge(){
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('chart3'));
+                axios.get("/report/getMemberReportByAge.do").then((res) => {
+                    myChart.setOption({
+                        title: {
+                            text: '年龄占比',
+                            subtext: '',
+                            x: 'center'
+                        },
+                        tooltip: {//提示框组件
+                            trigger: 'item',//触发类型，在饼形图中为item
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                            data: res.data.data.memberAge
+                        },
+                        series: [
+                            {
+                                name: '年龄占比',
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '60%'],
+                                data: res.data.data.memberAgeCount,
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    });
                 });
             },
             //初始化当前页要展示的日期
@@ -159,81 +238,6 @@
         }
     })
 </script>
-<script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('chart2'));
-    axios.get("/report/getMemberReportBySex.do").then((res) => {
-        myChart.setOption({
-            title: {
-                text: '性别占比',
-                subtext: '',
-                x: 'center'
-            },
-            tooltip: {//提示框组件
-                trigger: 'item',//触发类型，在饼形图中为item
-                formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: res.data.data.memberSex
-            },
-            series: [
-                {
-                    name: '性别占比',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '60%'],
-                    data: res.data.data.memberSexCount,
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        });
-    });
-</script>
-<!--<script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('chart3'));
-    axios.get("/report/getMemberReportByAge.do").then((res) => {
-        myChart.setOption({
-            title: {
-                text: '年龄占比',
-                subtext: '',
-                x: 'center'
-            },
-            tooltip: {//提示框组件
-                trigger: 'item',//触发类型，在饼形图中为item
-                formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: res.data.data.memberSex
-            },
-            series: [
-                {
-                    name: '套餐预约占比',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '60%'],
-                    data: res.data.data.memberSexCount,
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        });
-    });
-</script>-->
+
 
 </html>
