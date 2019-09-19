@@ -1,6 +1,7 @@
 package com.itheima.health.dao;
 
 import com.itheima.health.pojo.OrderSetting;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -17,11 +18,14 @@ public interface OrderSettingDao {
 
     void editNumberByOrderDate(OrderSetting orderSetting);
 
-    List<OrderSetting> getOrderByMonth(@Param("start") String start, @Param("end")String end);
+    List<OrderSetting> getOrderByMonth(@Param("start") String start, @Param("end") String end);
 
-    void editNumberByDate(@Param("number") int number,@Param("number") Date orderDate);
     @Select("select * from t_ordersetting where orderDate=#{orderDate}")
     OrderSetting findOrderSettingByOrderDate(Date date);
+
     @Update("UPDATE t_ordersetting set reservations=#{reservations} WHERE orderDate =#{orderDate}")
     void editReservations(OrderSetting orderSetting);
+
+    @Delete("DELETE FROM t_ordersetting WHERE orderDate < #{data}")
+    void deleteOrderSettingByData(String data);
 }

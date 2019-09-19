@@ -12,7 +12,7 @@
     <update id="editNumberByOrderDate">
         update t_ordersetting set number=#{number} where orderDate=#{orderDate}
     </update>
-    <select id="getOrderByMonth" resultType="ordersetting">
+    <select id="getOrderByMonth" resultType="com.itheima.health.pojo.OrderSetting">
         select * from t_ordersetting where orderDate between #{start} and #{end}
     </select>
 </mapper>

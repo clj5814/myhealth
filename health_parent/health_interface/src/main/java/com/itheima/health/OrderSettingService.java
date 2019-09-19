@@ -4,7 +4,6 @@ import com.itheima.health.pojo.OrderSetting;
 
 import java.util.List;
 import java.util.Map;
-
 public interface OrderSettingService {
 
 
@@ -13,4 +12,6 @@ public interface OrderSettingService {
     List<Map<String, Object>> getOrderByMonth(String date);
 
     void editNumberByDate(OrderSetting orderSetting);
+
+    void deleteOrderSettingByData(String data);
 }

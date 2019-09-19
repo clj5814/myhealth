@@ -55,4 +55,11 @@ public class OrderSettingServiceImpl implements OrderSettingService {
             orderSettingDao.add(orderSetting);
         }
     }
+
+    @Override
+    public void deleteOrderSettingByData(String data) {
+        orderSettingDao.deleteOrderSettingByData(data);
+    }
+
+
 }

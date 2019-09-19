@@ -29,12 +29,31 @@
             <value>0 5 10 * * ? </value>
         </property>
     </bean>
+    <!-- 注册JobDetail,作用是负责通过反射调用指定的Job -->
+    <bean id="jobDetail01"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 注入目标对象 -->
+        <property name="targetObject" ref="jobDemo"/>
+        <!-- 注入目标方法 -->
+        <property name="targetMethod" value="clearOrderSetting"/>
+    </bean>
+    <!-- 注册一个触发器，指定任务触发的时间 -->
+    <bean id="myTrigger01" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 注入JobDetail -->
+        <property name="jobDetail" ref="jobDetail01"/>
+        <!-- 指定触发的时间，基于Cron表达式（0 0 2 * * ?表示凌晨2点执行） -->
+        <property name="cronExpression">
+            <value>0 3 * * * ? </value>
+        </property>
+    </bean>
+
     <!-- 注册一个统一的调度工厂，通过这个调度工厂调度任务 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <!-- 注入多个触发器 -->
         <property name="triggers">
             <list>
                 <ref bean="myTrigger"/>
+                <ref bean="myTrigger01"/>
             </list>
         </property>
     </bean>
