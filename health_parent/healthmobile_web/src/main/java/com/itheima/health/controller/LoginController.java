@@ -47,6 +47,7 @@ public class LoginController {
                 member.setPhoneNumber(telephone);
                 member.setRegTime(new Date());
                 memberService.add(member);
+                System.out.println("***");
             }
             //3：:登录成功
             //写入Cookie，跟踪用户
